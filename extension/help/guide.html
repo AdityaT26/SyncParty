@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SyncParty - TURN relay setup guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: system-ui, "Segoe UI", sans-serif;
+    background: radial-gradient(1200px 600px at 20% -10%, #2b1b54 0%, #14141f 55%) #14141f;
+    color: #e8e8f0; line-height: 1.6; padding-bottom: 80px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 56px 0 8px; text-align: center; }
+  header .logo { font-size: 40px; }
+  h1 { font-size: 30px; font-weight: 800; margin-top: 8px; }
+  h1 span { color: #a78bfa; }
+  .sub { color: #9ca3af; max-width: 560px; margin: 10px auto 0; font-size: 15px; }
+  .why {
+    background: rgba(124,58,237,.10); border: 1px solid rgba(124,58,237,.35);
+    border-radius: 14px; padding: 18px 22px; margin: 36px 0 8px; font-size: 14px; color: #cdd0dd;
+  }
+  .why b { color: #c4b5fd; }
+  .step { margin-top: 48px; }
+  .step-head { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .num {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    background: #7c3aed; color: #fff; font-weight: 800; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 18px rgba(124,58,237,.5);
+  }
+  .step h2 { font-size: 19px; }
+  .step p { color: #b7bac7; font-size: 14.5px; margin: 6px 0 14px 48px; }
+  .step p b { color: #e8e8f0; }
+  .shot {
+    display: block; width: 100%; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    cursor: zoom-in;
+  }
+  #lightbox {
+    position: fixed; inset: 0; z-index: 99; display: none;
+    align-items: center; justify-content: center;
+    background: rgba(5,5,10,.94); cursor: zoom-out; padding: 18px;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 100%; max-height: 100%; border-radius: 10px;
+    box-shadow: 0 20px 80px rgba(0,0,0,.8);
+  }
+  .note {
+    margin: 14px 0 0 48px; padding: 12px 16px; border-radius: 10px; font-size: 13.5px;
+    background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); color: #fbbf24;
+  }
+  .finish {
+    margin-top: 56px; text-align: center; background: rgba(52,211,153,.08);
+    border: 1px solid rgba(52,211,153,.3); border-radius: 14px; padding: 26px;
+  }
+  .finish h2 { color: #34d399; font-size: 20px; }
+  .finish p { color: #b7bac7; font-size: 14.5px; margin-top: 8px; }
+  code { background: #1e1e2e; border: 1px solid #33334a; border-radius: 6px; padding: 1px 7px; font-size: 13px; color: #c4b5fd; }
+  a { color: #a78bfa; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">&#127916;</div>
+    <h1>Set up your free relay for <span>SyncParty</span></h1>
+    <p class="sub">Needed only if you can sync on the same Wi-Fi but not across different networks (your internet provider likely uses CG-NAT). Takes about 3 minutes, costs nothing, and <b>only one person</b> in the party needs it.</p>
+  </header>
+
+  <div class="why">
+    <b>Why?</b> SyncParty is peer-to-peer. Some internet providers put many customers behind one shared address (CG-NAT), which blocks direct connections. A <b>TURN relay</b> fixes that by carrying the tiny sync messages. The free tier at <a href="https://dashboard.metered.ca/signup" target="_blank" rel="noopener">metered.ca</a> includes 500&nbsp;MB/month on its default plan &mdash; SyncParty uses only a few MB per hundred hours, so that's plenty. (A 20&nbsp;GB/month plan is also free but asks for payment info; you don't need it.)
+  </div>
+
+  <section class="step">
+    <div class="step-head"><div class="num">1</div><h2>Create an account &amp; find your app</h2></div>
+    <p>Sign up at <a href="https://dashboard.metered.ca/signup" target="_blank" rel="noopener">dashboard.metered.ca</a>. Your <b>app name</b> is shown in the top-left of the dashboard (the part before <code>.metered.live</code>). Note it down, then open the <b>TURN Server</b> page from the left sidebar.</p>
+    <img class="shot" src="img/step1.jpg" alt="Metered dashboard - app name and TURN Server page location">
+  </section>
+
+  <section class="step">
+    <div class="step-head"><div class="num">2</div><h2>Open the TURN Server page</h2></div>
+    <p>On the TURN Server page, <b>scroll down</b> until you reach the credentials section.</p>
+    <img class="shot" src="img/step2.jpg" alt="TURN Server page - scroll down to the credentials section">
+  </section>
+
+  <section class="step">
+    <div class="step-head"><div class="num">3</div><h2>Create a credential</h2></div>
+    <p>Click <b>Create credential</b>.</p>
+    <img class="shot" src="img/step3.jpg" alt="Create a TURN credential">
+  </section>
+
+  <section class="step">
+    <div class="step-head"><div class="num">4</div><h2>Reveal the API key</h2></div>
+    <p>Your credential now exists. Click <b>Show API Key</b>.</p>
+    <img class="shot" src="img/step4.jpg" alt="Credential created - press Show API Key">
+    <div class="note">&#9888; Use this <b>TURN API key</b> &mdash; not the account "SECRET KEY" from the Developers page. That's a different key and will be rejected.</div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><div class="num">5</div><h2>Copy the API key</h2></div>
+    <p>Copy the key shown.</p>
+    <img class="shot" src="img/step5.jpg" alt="The API key, ready to copy">
+  </section>
+
+  <div class="finish">
+    <h2>&#10003; Last step: paste into SyncParty</h2>
+    <p>Click the SyncParty toolbar icon &rarr; <b>Advanced settings</b> &rarr; <b>Connection settings</b>.<br>
+    Enter your <b>app name</b> and this <b>API key</b>, then press <b>Test</b>.<br>
+    It should say <code>&#10003; Working!</code> &mdash; from then on, every session automatically uses your relay, and the in-page overlay will confirm with &ldquo;Connected via TURN relay &#10003;&rdquo;.</p>
+  </div>
+</div>
+
+<div id="lightbox"><img alt="Expanded screenshot"></div>
+<script src="guide.js"></script>
+</body>
+</html>

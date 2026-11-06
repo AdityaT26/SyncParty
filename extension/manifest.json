@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "SyncParty",
+  "version": "1.0.0",
+  "description": "Watch together, perfectly in sync. Each person uses their own account - SyncParty only relays play/pause/seek between two browsers, peer-to-peer.",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "SyncParty"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.netflix.com/*",
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "page/page-agent.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/constants.js",
+        "content/adapters/generic.js",
+        "content/adapters/netflix.js",
+        "content/adapters/youtube.js",
+        "content/adapters/prime.js",
+        "content/adapters/hotstar.js",
+        "content/adapters/registry.js",
+        "content/adapters/composite.js",
+        "content/frame-agent.js",
+        "content/transport.js",
+        "content/sync-engine.js",
+        "content/overlay.js",
+        "content/orchestrator.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true,
+      "match_origin_as_fallback": true
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/hash-catcher.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/fs-hijack.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "peer/peer-frame.html",
+        "peer/peer-frame.js",
+        "vendor/peerjs.min.js",
+        "turn-config.js",
+        "default_settings.json"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "https://*.metered.live/*"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "_comment": "SyncParty default settings. Edit BEFORE shipping a build; users' own choices (saved in chrome.storage) always override these. Keys must match popup.js/orchestrator.js.",
+  "chatLayout": "float",
+  "sidebarPush": true,
+  "notifyActions": true,
+  "adPause": true,
+  "bufferPause": true,
+  "controlMode": "everyone",
+  "controlOverrides": {}
+}

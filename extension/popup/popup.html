@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="22" height="22">
+    <h1>SyncParty</h1>
+    <span id="platform" class="tag"></span>
+  </header>
+
+  <div id="unsupported" class="panel hidden">
+    <p>Open a video page (Netflix, Prime Video, JioHotstar, YouTube, or any site with a video), then click the SyncParty icon again.</p>
+    <p class="muted small"><b>Already on one?</b> Refresh the page once and try again &mdash; this happens on pages that were open before SyncParty was installed or updated.</p>
+  </div>
+
+  <div id="idle" class="panel hidden">
+    <p id="videoStatus" class="muted"></p>
+    <label>Your name
+      <input id="name" type="text" maxlength="20" placeholder="e.g. Aditya">
+    </label>
+    <button id="createBtn" class="primary">Create a room</button>
+    <div class="divider"><span>or join one</span></div>
+    <div class="joinRow">
+      <input id="joinCode" type="text" maxlength="10" placeholder="ROOM CODE" autocomplete="off" spellcheck="false">
+      <button id="joinBtn">Join</button>
+    </div>
+    <p id="idleError" class="error hidden"></p>
+  </div>
+
+  <div id="active" class="panel hidden">
+    <p class="rowline"><span class="dot" id="stateDot"></span><span id="stateText"></span></p>
+    <div id="codeBox" class="codeBox hidden">
+      <span id="codeText"></span>
+      <button id="copyBtn" title="Copy code">Copy</button>
+    </div>
+    <button id="inviteBtn" class="primary hidden">Copy invite link</button>
+    <div id="membersBox" class="hidden">
+      <p class="muted small membersTitle">Watching now</p>
+      <ul id="members"></ul>
+      <p id="hostHint" class="muted tiny hidden">&#127918; = allow/deny their playback control &middot; &times; = remove from party (rotates the code)</p>
+    </div>
+    <div class="btnRow">
+      <button id="syncNowBtn" title="Force everyone to the same position">&#8635; Sync now</button>
+      <button id="overlayBtn">Show overlay</button>
+    </div>
+    <button id="leaveBtn" class="danger">Leave session</button>
+  </div>
+
+  <details id="settings">
+    <summary>Settings</summary>
+    <div class="panel">
+      <label class="selRow">Chat layout
+        <select id="setLayout">
+          <option value="float">Floating window</option>
+          <option value="right">Sidebar - right</option>
+          <option value="left">Sidebar - left</option>
+        </select>
+      </label>
+      <label class="chk"><input type="checkbox" id="setPush"> Sidebar pushes the page aside (instead of overlaying it)</label>
+      <label class="chk"><input type="checkbox" id="setNotify"> Show activity in chat (played, paused, skipped, joined...)</label>
+      <label class="chk"><input type="checkbox" id="setAdPause"> Pause the party while someone has ads, resume after</label>
+      <label class="chk"><input type="checkbox" id="setBufPause"> Pause my playback when someone else is buffering</label>
+    </div>
+  </details>
+
+  <details id="advSettings">
+    <summary>Advanced settings</summary>
+    <div class="panel">
+      <label class="selRow">Playback control
+        <select id="setControlMode">
+          <option value="everyone">Everyone can control</option>
+          <option value="host">Host only</option>
+        </select>
+      </label>
+      <p class="muted tiny">Applies when you're the host. You can also allow/deny individual members in the list above with &#127918;.</p>
+    </div>
+  </details>
+
+  <details id="relaySettings">
+    <summary>Can't connect with your friend? Free fix here</summary>
+    <div class="panel">
+      <div id="netSettings">
+        <p class="muted small">If you can sync on the same Wi-Fi but not across networks, your ISP likely uses CG-NAT and you need a free relay. Follow the <a href="#" id="helpLink"><b>step-by-step setup guide</b></a> (3 minutes, with screenshots), then paste the values here and press <b>Test</b>.</p>
+        <label>Metered app name
+          <input id="turnAppName" type="text" placeholder="e.g. syncparty" autocomplete="off" spellcheck="false">
+        </label>
+        <label>API key
+          <input id="turnApiKey" type="password" placeholder="TURN API key (see guide)" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="btnRow">
+          <button id="turnSaveBtn">Save</button>
+          <button id="turnTestBtn" class="primary">Test</button>
+        </div>
+        <p id="turnStatus" class="muted small"></p>
+      </div>
+    </div>
+  </details><!-- /relaySettings -->
+
+  <footer>
+    <p>Peer-to-peer &middot; each person uses their own account &middot; nothing is streamed or shared except play/pause/seek + chat.</p>
+  </footer>
+
+  <script src="../turn-config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
